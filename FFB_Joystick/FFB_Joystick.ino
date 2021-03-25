@@ -1,5 +1,4 @@
 #include "Joystick.h"
-//#include "AccelStepper.h"
 
 //set up steppers
 #define motorInterfaceType 1
@@ -10,9 +9,11 @@
 int xAxisSpeed = 0;
 int yAxisSpeed = 0;
 
-// AccelStepper xAxisStepper(motorInterfaceType, 5, 4);
+int pitchState = LOW;
+int rollState = LOW;
 
-// AccelStepper yAxisStepper(motorInterfaceType, 8, 7);
+unsigned long pitchPrevious = 0;
+unsigned long rollPrevious = 0;
 
 
 Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID, 
@@ -39,12 +40,10 @@ void setup() {
   pinMode(9,OUTPUT);
   pinMode(8,OUTPUT);
   pinMode(7,OUTPUT);
-  pinMode(A3,OUTPUT); 
   //roll driver control
   pinMode(6,OUTPUT);
   pinMode(5,OUTPUT);
   pinMode(4,OUTPUT);
-  pinMode(A4,OUTPUT);
 
   //init axes
   Joystick.setXAxisRange(0, 1023);
@@ -87,45 +86,76 @@ void loop() {
 
   int rollforce = forces[0]*-1;
   int pitchforce = forces[1]*-1;
-  
-  //steps if needed
-  //xAxisStepper.runSpeed();
-  //yAxisStepper.runSpeed();
 
-  //reset PWM 
-  analogWrite(5,0);
-  analogWrite(8,0);
+  int pitchInterval = map(forces[1],-255,255,0,1000);
+  int rollInterval = map(forces[0],-255,255,0,1000);
+
+  unsigned long pitchMillis = millis();
+  unsigned long rollMillis = millis();
   
   //roll
   if(rollforce > 0){
     digitalWrite(9,LOW);
     digitalWrite(7,HIGH);
-    analogWrite(8,abs(rollforce));
+    if (rollMillis - rollPrevious >= rollInterval) {
+      rollPrevious = rollMillis;
+      if (pitchState == LOW){
+        rollState == HIGH;
+      } else {
+        rollState == HIGH;
+      }
+    }
+    digitalWrite(8,pitchState);
   }
   else if(rollforce < 0){
     digitalWrite(9,LOW);
     
     digitalWrite(7,LOW);
-    analogWrite(8,abs(rollforce));
+    if (rollMillis - rollPrevious >= rollInterval) {
+      rollPrevious = rollMillis;
+      if (pitchState == LOW){
+        rollState == HIGH;
+      } else {
+        rollState == HIGH;
+      }
+    }
+    digitalWrite(8,pitchState);
   }
-  //if(rollforce = 0){
-    //digitalWrite(9,HIGH);
-  //}
+  if(rollforce = 0){
+    digitalWrite(9,HIGH);
+  }
   
   //pitch
   if(pitchforce > 0){
   
     digitalWrite(6,LOW);
     digitalWrite(4,HIGH);
-    analogWrite(5,abs(pitchforce));
+    if (pitchMillis - pitchPrevious >= pitchInterval) {
+      pitchPrevious = pitchMillis;
+      if (pitchState == LOW){
+        pitchState == HIGH;
+      } else {
+        pitchState == HIGH;
+      }
+    }
+    digitalWrite(5,pitchState);
   }
   else if(pitchforce < 0){
     digitalWrite(6,LOW);
     
     digitalWrite(4,LOW);
-    analogWrite(5,abs(pitchforce));
+        if (pitchMillis - pitchPrevious >= pitchInterval) {
+      pitchPrevious = pitchMillis;
+      if (pitchState == LOW){
+        pitchState == HIGH;
+      } else {
+        pitchState == HIGH;
+      }
+    }
+    digitalWrite(5,pitchState);
+    
   }
-  //if(pitchforce = 0){
-    //digitalWrite(6,HIGH);
-  //}
+  if(pitchforce = 0){
+    digitalWrite(6,HIGH);
+  }
 }
