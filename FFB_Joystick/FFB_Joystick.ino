@@ -1,20 +1,10 @@
 #include "Joystick.h"
 
-//set up steppers
-#define motorInterfaceType 1
-
-#define  MAX_SPEED 100
-#define  MIN_SPEED 0.01
-
-int xAxisSpeed = 0;
-int yAxisSpeed = 0;
-
 int pitchState = LOW;
 int rollState = LOW;
 
 unsigned long pitchPrevious = 0;
 unsigned long rollPrevious = 0;
-
 
 Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID, 
   JOYSTICK_TYPE_JOYSTICK, 0 , 0,
@@ -30,6 +20,8 @@ Gains mygains[2];
 void setup() {
   //make it work with some accuracy
   analogReference(5); 
+
+  Serial.begin(9600);
   
   //pitch
   pinMode(A1,INPUT);
@@ -65,11 +57,15 @@ void loop() {
   //yAxisStepper.runSpeed();
   
   //pitch
-  int yAxis = map(analogRead(A1),305,680,1023,0);
+  int yAxis = map(analogRead(A1),740,377,1023,0);
   //roll 
   int xAxis = map(analogRead(A2),315,683 ,1023,0);
 
   myeffectparams[0].springMaxPosition = 1023;
+
+
+
+  
   myeffectparams[0].springPosition = xAxis;//0-1023
 
   myeffectparams[1].springMaxPosition = 1023;
@@ -87,11 +83,18 @@ void loop() {
   int rollforce = forces[0]*-1;
   int pitchforce = forces[1]*-1;
 
-  int pitchInterval = map(forces[1],-255,255,0,1000);
-  int rollInterval = map(forces[0],-255,255,0,1000);
+  int pitchInterval = map(abs(rollforce),0,255,1,100);
+  int rollInterval = map(abs(pitchforce),0,255,1,100);
 
+  Serial.println(rollInterval);
   unsigned long pitchMillis = millis();
   unsigned long rollMillis = millis();
+    
+  Serial.println("");
+  Serial.println(rollforce);
+  Serial.println(pitchforce);
+  Serial.println("");
+  Serial.println("");
   
   //roll
   if(rollforce > 0){
@@ -99,13 +102,14 @@ void loop() {
     digitalWrite(7,HIGH);
     if (rollMillis - rollPrevious >= rollInterval) {
       rollPrevious = rollMillis;
-      if (pitchState == LOW){
-        rollState == HIGH;
+      if (rollState == LOW){
+        rollState = HIGH;
       } else {
-        rollState == HIGH;
+        rollState = LOW;
       }
     }
-    digitalWrite(8,pitchState);
+    digitalWrite(8,rollState);
+
   }
   else if(rollforce < 0){
     digitalWrite(9,LOW);
@@ -113,49 +117,57 @@ void loop() {
     digitalWrite(7,LOW);
     if (rollMillis - rollPrevious >= rollInterval) {
       rollPrevious = rollMillis;
-      if (pitchState == LOW){
-        rollState == HIGH;
+      if (rollState == LOW){
+        rollState = HIGH;
       } else {
-        rollState == HIGH;
+        rollState = LOW;
       }
     }
-    digitalWrite(8,pitchState);
+    digitalWrite(8,rollState);
+    
   }
-  if(rollforce = 0){
-    digitalWrite(9,HIGH);
-  }
+  //if(rollforce = 0){
+    //digitalWrite(9,HIGH);
+  //}
   
   //pitch
   if(pitchforce > 0){
   
     digitalWrite(6,LOW);
-    digitalWrite(4,HIGH);
+    digitalWrite(4,LOW);
     if (pitchMillis - pitchPrevious >= pitchInterval) {
       pitchPrevious = pitchMillis;
       if (pitchState == LOW){
-        pitchState == HIGH;
+        pitchState = HIGH;
+        delay(5);
       } else {
-        pitchState == HIGH;
+        pitchState = LOW;
       }
     }
     digitalWrite(5,pitchState);
+
   }
   else if(pitchforce < 0){
     digitalWrite(6,LOW);
     
-    digitalWrite(4,LOW);
-        if (pitchMillis - pitchPrevious >= pitchInterval) {
+    digitalWrite(4,HIGH);
+    if ((pitchMillis - pitchPrevious) >= pitchInterval) {
       pitchPrevious = pitchMillis;
       if (pitchState == LOW){
-        pitchState == HIGH;
-      } else {
-        pitchState == HIGH;
+        pitchState = HIGH;
+      } else {  
+        pitchState = LOW;
       }
     }
     digitalWrite(5,pitchState);
-    
+
   }
-  if(pitchforce = 0){
-    digitalWrite(6,HIGH);
-  }
+  //if(pitchforce = 0){
+    //digitalWrite(6,HIGH);
+  //}
+
+  Serial.println(pitchPrevious);
+  Serial.println(rollPrevious);
+
+  delay(10);
 }
