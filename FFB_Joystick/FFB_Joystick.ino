@@ -66,9 +66,9 @@ void loop() {
   //yAxisStepper.runSpeed();
   
   //pitch
-  int yAxis = map(analogRead(A1),0,1023,1023,0);
+  int yAxis = map(analogRead(A1),305,680,1023,0);
   //roll 
-  int xAxis = map(analogRead(A2),0,1023 ,1023,0);
+  int xAxis = map(analogRead(A2),315,683 ,1023,0);
 
   myeffectparams[0].springMaxPosition = 1023;
   myeffectparams[0].springPosition = xAxis;//0-1023
