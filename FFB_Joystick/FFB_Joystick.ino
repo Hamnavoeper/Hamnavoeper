@@ -79,8 +79,8 @@ void loop() {
   int rollforce = forces[0]*-1;
   int pitchforce = forces[1]*-1;
   //sets expected intervals to desired force
-  int pitchInterval = map(abs(rollforce),0,255,500,1);
-  int rollInterval = map(abs(pitchforce),0,255,500,1);
+  int pitchInterval = map(abs(pitchforce),0,255,500,0);
+  int rollInterval = map(abs(rollforce),0,255,500,0);
  
   //updates stored runtime
   unsigned long pitchMillis = millis();
@@ -121,7 +121,7 @@ void loop() {
   //}
   
   //pitch
-  if(pitchforce > 0){
+  if(pitchforce < 0){
   
     digitalWrite(6,LOW);
     digitalWrite(4,LOW);
@@ -136,7 +136,7 @@ void loop() {
     digitalWrite(5,pitchState);
 
   }
-  else if(pitchforce < 0){
+  else if(pitchforce > 0){
     digitalWrite(6,LOW);
     
     digitalWrite(4,HIGH);
