@@ -20,8 +20,6 @@ Gains mygains[2];
 void setup() {
   //make it work with some accuracy
   analogReference(5); 
-
-  Serial.begin(9600);
   
   //pitch
   pinMode(A1,INPUT);
@@ -61,40 +59,32 @@ void loop() {
   //roll 
   int xAxis = map(analogRead(A2),315,683 ,1023,0);
 
+  //inits roll effects
   myeffectparams[0].springMaxPosition = 1023;
-
-
-
-  
   myeffectparams[0].springPosition = xAxis;//0-1023
-
+  //inits pitch effects
   myeffectparams[1].springMaxPosition = 1023;
   myeffectparams[1].springPosition = yAxis;//0-1023
   
   
-  
+  //sends stick position
   Joystick.setYAxis(yAxis);
   Joystick.setXAxis(xAxis);
   
+  //fetches stick effects
   Joystick.setEffectParams(myeffectparams);
   Joystick.getForce(forces);
 
 
   int rollforce = forces[0]*-1;
   int pitchforce = forces[1]*-1;
-
+  //sets expected intervals to desired force
   int pitchInterval = map(abs(rollforce),0,255,1,100);
   int rollInterval = map(abs(pitchforce),0,255,1,100);
-
-  Serial.println(rollInterval);
+ 
+  //updates stored runtime
   unsigned long pitchMillis = millis();
   unsigned long rollMillis = millis();
-    
-  Serial.println("");
-  Serial.println(rollforce);
-  Serial.println(pitchforce);
-  Serial.println("");
-  Serial.println("");
   
   //roll
   if(rollforce > 0){
@@ -165,9 +155,4 @@ void loop() {
   //if(pitchforce = 0){
     //digitalWrite(6,HIGH);
   //}
-
-  Serial.println(pitchPrevious);
-  Serial.println(rollPrevious);
-
-  delay(10);
 }
