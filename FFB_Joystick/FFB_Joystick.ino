@@ -129,7 +129,6 @@ void loop() {
       pitchPrevious = pitchMillis;
       if (pitchState == LOW){
         pitchState = HIGH;
-        delay(5);
       } else {
         pitchState = LOW;
       }
