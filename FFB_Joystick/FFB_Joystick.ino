@@ -79,8 +79,8 @@ void loop() {
   int rollforce = forces[0]*-1;
   int pitchforce = forces[1]*-1;
   //sets expected intervals to desired force
-  int pitchInterval = map(abs(pitchforce),0,255,50,0);
-  int rollInterval = map(abs(rollforce),0,255,50,0);
+  int pitchInterval = map(abs(pitchforce),0,255,100,0);
+  int rollInterval = map(abs(rollforce),0,255,100,0);
  
   //updates stored runtime
   unsigned long pitchMillis = millis();
@@ -92,7 +92,7 @@ void loop() {
     digitalWrite(7,HIGH);
     if (rollMillis - rollPrevious >= rollInterval) {
       rollPrevious = rollMillis;
-      if (rollState == LOW){
+      if (rollState == LOW and rollInterval < 90){
         rollState = HIGH;
       } else {
         rollState = LOW;
@@ -107,7 +107,7 @@ void loop() {
     digitalWrite(7,LOW);
     if (rollMillis - rollPrevious >= rollInterval) {
       rollPrevious = rollMillis;
-      if (rollState == LOW){
+      if (rollState == LOW and rollInterval < 90){
         rollState = HIGH;
       } else {
         rollState = LOW;
@@ -124,10 +124,10 @@ void loop() {
   if(pitchforce < 0){
   
     digitalWrite(6,LOW);
-    digitalWrite(4,LOW);
+    digitalWrite(4,HIGH);
     if (pitchMillis - pitchPrevious >= pitchInterval) {
       pitchPrevious = pitchMillis;
-      if (pitchState == LOW){
+      if (pitchState == LOW and pitchInterval < 90){
         pitchState = HIGH;
       } else {
         pitchState = LOW;
@@ -139,10 +139,10 @@ void loop() {
   else if(pitchforce > 0){
     digitalWrite(6,LOW);
     
-    digitalWrite(4,HIGH);
+    digitalWrite(4,LOW);
     if ((pitchMillis - pitchPrevious) >= pitchInterval) {
       pitchPrevious = pitchMillis;
-      if (pitchState == LOW){
+      if (pitchState == LOW and pitchInterval < 90){
         pitchState = HIGH;
       } else {  
         pitchState = LOW;
