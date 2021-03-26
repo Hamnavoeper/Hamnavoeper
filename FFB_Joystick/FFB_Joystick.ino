@@ -79,8 +79,8 @@ void loop() {
   int rollforce = forces[0]*-1;
   int pitchforce = forces[1]*-1;
   //sets expected intervals to desired force
-  int pitchInterval = map(abs(rollforce),0,255,1,100);
-  int rollInterval = map(abs(pitchforce),0,255,1,100);
+  int pitchInterval = map(abs(rollforce),0,255,500,1);
+  int rollInterval = map(abs(pitchforce),0,255,500,1);
  
   //updates stored runtime
   unsigned long pitchMillis = millis();
