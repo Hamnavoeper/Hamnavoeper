@@ -92,7 +92,7 @@ void loop() {
     digitalWrite(7,HIGH);
     if (rollMillis - rollPrevious >= rollInterval) {
       rollPrevious = rollMillis;
-      if (rollState == LOW and rollInterval < 90){
+      if (rollState == LOW and rollInterval < 95){
         rollState = HIGH;
       } else {
         rollState = LOW;
@@ -107,7 +107,7 @@ void loop() {
     digitalWrite(7,LOW);
     if (rollMillis - rollPrevious >= rollInterval) {
       rollPrevious = rollMillis;
-      if (rollState == LOW and rollInterval < 90){
+      if (rollState == LOW and rollInterval < 95){
         rollState = HIGH;
       } else {
         rollState = LOW;
@@ -127,7 +127,7 @@ void loop() {
     digitalWrite(4,HIGH);
     if (pitchMillis - pitchPrevious >= pitchInterval) {
       pitchPrevious = pitchMillis;
-      if (pitchState == LOW and pitchInterval < 90){
+      if (pitchState == LOW and pitchInterval < 95){
         pitchState = HIGH;
       } else {
         pitchState = LOW;
@@ -142,7 +142,7 @@ void loop() {
     digitalWrite(4,LOW);
     if ((pitchMillis - pitchPrevious) >= pitchInterval) {
       pitchPrevious = pitchMillis;
-      if (pitchState == LOW and pitchInterval < 90){
+      if (pitchState == LOW and pitchInterval < 95){
         pitchState = HIGH;
       } else {  
         pitchState = LOW;
