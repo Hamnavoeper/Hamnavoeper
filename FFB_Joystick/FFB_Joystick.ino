@@ -24,7 +24,7 @@ void setup() {
   //pitch
   pinMode(A1,INPUT);
   //roll
-  pinMode(A2,INPUT);
+  pinMode(A3,INPUT);
   
   //pitch driver control
   pinMode(9,OUTPUT);
@@ -57,7 +57,7 @@ void loop() {
   //pitch
   int yAxis = map(analogRead(A1),740,377,1023,0);
   //roll 
-  int xAxis = map(analogRead(A2),315,683 ,1023,0);
+  int xAxis = map(analogRead(A3),315,683 ,1023,0);
 
   //inits roll effects
   myeffectparams[0].springMaxPosition = 1023;
