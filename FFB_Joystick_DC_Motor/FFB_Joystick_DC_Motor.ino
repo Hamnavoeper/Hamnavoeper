@@ -86,9 +86,9 @@ void loop() {
     analogWrite(8,abs(forces[0]));
     
   }
-  //if(rollforce = 0){
-    //digitalWrite(9,HIGH);
-  //}
+  if(rollforce = 0){
+    analogWrite(8,0);
+  }
   
   //pitch
   if(pitchforce < 0){
@@ -103,7 +103,7 @@ void loop() {
     analogWrite(5,abs(forces[1]));
 
   }
-  //if(pitchforce = 0){
-    //digitalWrite(6,HIGH);
-  //}
+  if(pitchforce = 0){
+    analogWrite(5,0);
+  }
 }
