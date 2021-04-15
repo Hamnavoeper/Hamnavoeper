@@ -37,10 +37,10 @@ void setup() {
   Joystick.setXAxisRange(0, 1023);
   Joystick.setYAxisRange(1023,0);
   //x
-  mygains[0].totalGain = 100;
+  mygains[0].totalGain = 200;
   mygains[0].springGain = 100;
   //y
-  mygains[1].totalGain = 100;
+  mygains[1].totalGain = 200;
   mygains[1].springGain = 100;
 
   Joystick.setGains(mygains);
@@ -75,19 +75,19 @@ void loop() {
 
   //roll
   if(rollforce > 0){
-    digitalWrite(9,LOW);
+    digitalWrite(8,LOW);
     digitalWrite(7,HIGH);
-    analogWrite(8,abs(forces[0]));
+    analogWrite(9,abs(forces[0]));
 
   }
   else if(rollforce < 0){
-    digitalWrite(9,LOW); 
+    digitalWrite(8,LOW); 
     digitalWrite(7,LOW);
-    analogWrite(8,abs(forces[0]));
+    analogWrite(9,abs(forces[0]));
     
   }
   if(rollforce = 0){
-    analogWrite(8,0);
+    analogWrite(9,0);
   }
   
   //pitch
