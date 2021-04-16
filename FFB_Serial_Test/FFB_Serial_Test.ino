@@ -22,7 +22,7 @@ void setup()
 void loop() // run over and over
 {
  int xAxis = analogRead(A1);
- int yAxis = analogRead(A2); 
+ int yAxis = analogRead(A3); 
 
   if (mySerial.available())
     Serial.println(" ");

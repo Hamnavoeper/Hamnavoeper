@@ -49,9 +49,9 @@ void setup() {
 
 void loop() {
   //pitch
-  int yAxis = map(analogRead(A1),740,377,1023,0);
+  int yAxis = map(analogRead(A1),750,360,1023,0);
   //roll 
-  int xAxis = map(analogRead(A3),315,683 ,1023,0);
+  int xAxis = map(analogRead(A3),325,640 ,1023,0);
 
   //inits roll effects
   myeffectparams[0].springMaxPosition = 1023;
